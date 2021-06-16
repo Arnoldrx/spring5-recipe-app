@@ -1,6 +1,8 @@
 package guru.springframework.recipe.controllers;
 
 import guru.springframework.recipe.commands.IngredientCommand;
+import guru.springframework.recipe.commands.RecipeCommand;
+import guru.springframework.recipe.commands.UnitOfMeasureCommand;
 import guru.springframework.recipe.services.IngredientService;
 import guru.springframework.recipe.services.RecipeService;
 import guru.springframework.recipe.services.UnitOfMeasureService;
@@ -34,6 +36,25 @@ public class IngredientController {
     }
 
     @GetMapping
+    @RequestMapping("recipe/ingredient/{recipeId}/new")
+    public String newIngredient(@PathVariable String recipeId, Model model) {
+        //make sure we have a good id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        //need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        //init uom
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
+    }
+
+    @GetMapping
     @RequestMapping("recipe/ingredient/{recipeId}/show/{id}")
     public String showRecipeIngredient(@PathVariable String recipeId,
                                        @PathVariable String id, Model model) {
@@ -59,5 +80,15 @@ public class IngredientController {
         log.debug("saved recipe id: " + savedCommand.getRecipeId());
         log.debug("saved ingredient id: " + savedCommand.getId());
         return "redirect:/recipe/"  + "ingredient/" + savedCommand.getRecipeId() + "/show/" + savedCommand.getId() ;
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/ingredient/{recipeId}/delete/{id}")
+    public String deleteIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
+        log.debug("Deleting ingredient: " + id);
+
+
+        ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(id));
+        return "redirect:/recipe/ingredients/" + recipeId;
     }
 }
