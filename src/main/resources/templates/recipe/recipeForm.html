@@ -63,11 +63,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('prepTime')}
+                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>Prep Time:</label>
                                     <input type="text" class="form-control" th:field="*{prepTime}"/>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('cookTime')}
+                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>Cooktime:</label>
                                     <input type="text" class="form-control" th:field="*{cookTime}"/>
                                 </div>
@@ -82,17 +84,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('servings')}
+                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>Servings:</label>
                                     <input type="text" class="form-control" th:field="*{servings}"/>
+                                    <span class="help-block" th:if="${#fields.hasErrors('servings')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('servings')}" th:text="${err}"/>
+                                        </ul>
+                                    </span>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Source:</label>
                                     <input type="text" class="form-control" th:field="*{source}"/>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('url')}
+                                ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>URL:</label>
                                     <input type="text" class="form-control" th:field="*{url}"/>
+                                    <span class="help-block" th:if="${#fields.hasErrors('url')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('url')}" th:text="${err}"/>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
                         </div>
