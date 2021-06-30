@@ -34,7 +34,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('description')} ? 'col-md-3 form-form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Recipe Description:</label>
+                                    <label th:text="#{recipe.description}">Recipe Description d:</label>
                                     <input type="text" class="form-control" th:field="*{description}"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('description')}">
                                         <ul>
@@ -118,7 +118,8 @@
                                     <h1 class="panel-title">Ingredients</h1>
                                 </div>
                                 <div class="col-md-1">
-                                    <a class="btn btn-default" href="#" role="button">Edit</a>
+                                    <a class="btn btn-default" href="#"
+                                       th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
                                 </div>
                             </div>
                         </div>
